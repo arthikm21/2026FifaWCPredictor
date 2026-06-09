@@ -1,3 +1,5 @@
+# Build and deploy to GitHub Pages
+# Triggers: push to main or manual dispatch
 name: Build and deploy to GitHub Pages
 on:
   push:
@@ -34,11 +36,12 @@ jobs:
           if [ -d build ]; then echo "publish_dir=build" >> $GITHUB_OUTPUT
           elif [ -d dist ]; then echo "publish_dir=dist" >> $GITHUB_OUTPUT
           else
+            # default to build/ if neither exists
             echo "publish_dir=build" >> $GITHUB_OUTPUT
           fi
 
       - name: Upload artifact for GitHub Pages
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v2
         with:
           path: ${{ steps.detect.outputs.publish_dir }}
 
